@@ -1,0 +1,34 @@
+ASMARON LANGUAGE ACADEMY v36.07 — MICRO-LEVEL VOICE AND UI HARDENING
+===================================================================
+
+BASE
+----
+Built from v36.06 Online AI project. Existing lesson engine, adaptive practice, phrasebook, progress, AI Studio, secure backend, transcription, assets and deployment files are retained.
+
+DOCUMENTATION-DRIVEN FINDINGS FIXED
+----------------------------------
+1. GPT-Live uses session.input_transcript.delta and session.output_transcript.delta. The previous frontend listened to mismatched response/realtime event names, so captions could remain empty even while audio was active.
+2. GPT-Live greeting is requested with session.commentary.append after session.started; response.create was not the documented GPT-Live greeting workflow.
+3. Added trusted developer greeting input to session creation and a session-wide spoken greeting request after startup.
+4. Added separate user and teacher transcript buffers with independent commit timers for full-duplex speech.
+5. Added microphone mute/unmute control using the local WebRTC audio track.
+6. Added data-channel close handling and safe cleanup after failed/disconnected peer connections.
+7. Kept the WebRTC media track as the audio transport and added visible audio controls when autoplay is blocked.
+8. Increased close confirmation timeout to 15 seconds and explicitly report unconfirmed final usage when the channel closes early.
+9. Preserved server-side API key protection and all v36.06 static path, origin, rate-limit and request validation protections.
+
+AUTOMATED VALIDATION
+--------------------
+- Frontend inline JavaScript parse and unique static ID validation.
+- Every data-act control checked against a click handler.
+- Responsive layout and navigation markers checked.
+- GPT-Live greeting event, transcript event names, mute control and data-channel recovery markers checked.
+- Backend JavaScript syntax check.
+- HTTP smoke tests for health, static app, methods, content types, missing API key, live-session guard, traversal, sensitive-file denial, public assets and same-origin CORS.
+- ZIP integrity and extraction checks.
+
+NOT CLAIMED / OWNER TEST REQUIRED
+--------------------------------
+- Real GPT-Live voice call, greeting audio, microphone capture, speaker playback, mute, interruption and close finalization require an active OpenAI API key with GPT-Live access, billing, HTTPS and a physical device.
+- Android Chrome/WebView, Safari, Bluetooth, poor-network handoff, production concurrency, user authentication and cloud progress sync have not been certified.
+- No software build can honestly guarantee zero bugs or absolutely lag-free operation across all devices/networks.

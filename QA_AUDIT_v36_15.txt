@@ -1,0 +1,34 @@
+ASMARON LANGUAGE ACADEMY v36.15 — SCREEN-RECORDING MICRO-LEVEL AUDIT
+
+INPUTS
+- Audited v36.14 ZIP and 47.5-second Android screen recording (720x1560).
+- Reviewed Home, Lessons, Practice/Grammar Quiz, AI Studio, Progress and Settings frames.
+
+CONFIRMED RECORDING ISSUES AND FIXES
+1. Voice playback failure notice was a large bottom overlay, covering Progress cards and nearby controls.
+   - Moved notices to a compact top position below the app header.
+   - Bounded toast height and enabled internal overflow on narrow screens.
+   - Shortened the unsupported-device-speech message with clear next steps.
+2. Live Teacher was labelled READY before any live session existed.
+   - Initial state is now IDLE / VOICE NOT CONNECTED.
+   - Start Live Teacher changes to CONNECTING, then LISTENING/SPEAKING only after session events.
+   - Stopping/cleanup returns to NOT CONNECTED, not READY.
+3. Home ring displayed 100% under “Your Progress” while its actual formula was daily XP / daily XP goal.
+   - Renamed it “Daily Goal” and clarified that it measures XP earned today, not CEFR level or overall proficiency.
+
+PRESERVED SYSTEMS
+- Lessons, practice, adaptive review, weak-area and challenge flows.
+- Grammar and AI placement quizzes, AI Studio, recording/transcription, backup import/export, Progress, Settings, and Live WebRTC code.
+- API key remains server-side; no key added to client assets.
+
+VERIFICATION
+- npm run check: PASS.
+- Automated Node tests: PASS (13/13).
+- ZIP integrity: checked after packaging.
+- Headless Chromium smoke check: attempted but did not complete; the browser process timed out in this sandbox, so no visual browser pass is claimed.
+
+LIMITATIONS
+- Screen recording shows speech playback unavailable in the browser used. Browser SpeechSynthesis cannot be forced on by web code.
+- Phrase audio playback still requires a browser with working SpeechSynthesis; two-way AI voice requires deployed backend, server-side OPENAI_API_KEY, HTTPS/localhost, supported WebRTC and microphone permission.
+- Real provider billing/API access, physical Android microphone and audio output, and Acode-specific runtime are not certified in this environment.
+- No universal bug-free or lag-free guarantee; test on the target phone and deployed backend.

@@ -1,0 +1,53 @@
+ASMARON LANGUAGE ACADEMY v36.08 — WORKABILITY / VOICE RELIABILITY PATCH
+=======================================================================
+
+BASE
+----
+Built from the supplied v36.07 project. Existing lessons, course data, adaptive practice, phrasebook, local progress, AI Studio, transcription, embedded branding/teacher images, server-side API key handling and deployment configuration are retained.
+
+ROOT CAUSE CLASS: LIVE STARTUP RACE / FALSE HEALTH CONFIDENCE
+------------------------------------------------------------
+1. The previous startup path did not invalidate pending asynchronous work when a user cancelled while the microphone permission prompt, ICE gathering, or backend request was still pending. A late getUserMedia resolution could leave a microphone stream alive or let a cancelled attempt continue.
+2. The previous health endpoint only verified the text model. It could report AI ready while GPT-Live or the delegated Responses model was unavailable, leaving the voice button to fail later without a clear diagnosis.
+3. Microphone mute only disabled the local track; it did not also issue the documented GPT-Live input-audio mute/unmute control event.
+4. Provider error details were not consistently surfaced by the frontend.
+
+FIXES
+-----
+1. Added monotonically increasing liveAttemptId. Every cleanup invalidates pending async operations.
+2. After getUserMedia resolves, stale/cancelled attempts immediately stop every acquired track and return.
+3. Late track, data-channel and peer-connection events from stale attempts are ignored.
+4. End is enabled during startup; cancellation closes resources and prevents a later permission response from reviving the session.
+5. Bounded ICE gathering to 15 seconds and overall startup to 45 seconds; backend request timeout remains bounded.
+6. Cleanup closes data channel and peer connection, stops microphone tracks, clears timers and removes the audio element.
+7. Mute/unmute now both disables/enables the local track and sends session.input_audio.mute / session.input_audio.unmute.
+8. Health endpoint independently checks text, GPT-Live and delegated Responses model access. It reports liveReady and liveReason rather than implying text readiness means voice readiness.
+9. Home/Settings connection status distinguishes text-ready from live-voice-ready and reports missing API key/model access clearly.
+10. Frontend now prefers upstream provider detail when available.
+11. Added Windows and shell launch scripts; local startup runs checks/tests and reads server secrets from ignored .env.
+
+AUTOMATED VALIDATION
+--------------------
+- node --check server.js: PASS
+- npm run check: PASS (frontend inline JS parse, unique IDs, wired actions, responsive markers, embedded images, GPT-Live event contract, mute events, startup cancellation guard)
+- npm test: PASS (HTTP server health, static app, method/content-type guards, missing-key behavior, origin/security headers, path traversal and sensitive-file protection)
+- health test verifies liveReady=false and liveReason=missing_api_key when no server API key is configured.
+- ZIP integrity and extraction: validated before delivery.
+
+NOT CLAIMED / OWNER TEST REQUIRED
+--------------------------------
+- No API key was available in this environment. Real GPT-Live session creation, delegated model execution, microphone capture, audio playback, interruption, and final usage cannot be certified here.
+- No successful real-device browser session was performed. A headless Chromium attempt timed out in this container and is not counted as a pass.
+- Deployment to the user's Render/GitHub account was not performed.
+- Authentication, cloud progress sync, multi-device synchronization and cross-device account storage are not included.
+- No honest guarantee of zero bugs or zero latency can be made across all devices, browsers, networks and provider limits.
+
+REQUIRED LIVE ACCEPTANCE TEST
+-----------------------------
+1. Deploy to HTTPS; set OPENAI_API_KEY as a server-side secret only.
+2. Confirm /api/health reports aiReady=true AND liveReady=true.
+3. On Android Chrome, tap Start Live Teacher and allow microphone.
+4. Confirm teacher greeting audio, speak a sentence, confirm teacher audio reply and separate captions.
+5. Mute, speak (input must be ignored), unmute, speak again.
+6. Tap End; confirm session.closed/final usage or explicit unconfirmed status.
+7. Start and immediately cancel during permission prompt; verify microphone indicator turns off and no stale session starts.

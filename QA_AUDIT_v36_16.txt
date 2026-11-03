@@ -1,0 +1,48 @@
+ASMARON LANGUAGE ACADEMY v36.16 — ASK AI + VOICE PIPELINE AUDIT
+===============================================================
+
+BASE
+- v36.15 Screen Audit Fixes Clean ZIP.
+- Existing offline lessons, practice, progress, settings, backup, AI Studio and Live Teacher retained.
+
+CONFIRMED SOURCE-LEVEL PROBLEMS ADDRESSED
+1. Ask AI message precedence could prefer a stale prefill string over current textarea content. The request now uses the current edited textarea first, while retaining explicit task/message overrides for voice submissions.
+2. Voice recording previously stopped at transcription and only inserted text; it did not automatically ask the AI tutor. The shared voice pipeline now transcribes and immediately submits a tutor request.
+3. No file-upload route was exposed in AI Studio for existing voice notes. Added a voice-note file picker for supported audio files.
+4. Transcription always sent the target-language hint. Added Auto-detect (default), learning-language and help-language choices. Auto mode omits the language hint so the transcription model can detect the actual speech.
+5. Voice transcript was not preserved after AI request failure. Transcript is retained in the message box for correction/retry; successful voice answers also show the transcript alongside the answer.
+6. Voice responses did not use available device speech. When the user sends voice, the AI tutor answer is spoken using browser TTS if enabled and supported; text answer remains available regardless.
+7. Server transcription upload limit was too restrictive for many short mobile recordings. Increased the JSON audio payload limit to 12 MB decoded / approximately 16 MB base64, with validation and accepted audio MIME types including FLAC.
+
+VOICE FLOW
+- Record & ask AI: microphone permission -> MediaRecorder -> secure backend transcription -> transcript -> AI tutor -> visible answer -> optional browser speech playback.
+- Upload voice note: choose supported audio file -> same transcription and tutor flow. File upload does not request microphone permission.
+- Default language mode: auto-detect. Optional explicit learning/help language hints.
+- Supported formats include WebM, OGG, MP4, MP3, WAV, M4A and FLAC, subject to browser MIME metadata and provider support.
+- Audio limit: 12 MB per file; microphone recording auto-stops at 60 seconds.
+- The transcript is shown to the learner and can be corrected before retrying. No transcription system can guarantee perfect recognition of noisy, unclear or accented audio.
+
+ASK AI FLOW
+- Uses secure /api/ai Responses API call.
+- Existing structured-output schema and task-specific validation retained.
+- Request timeout, backend status, provider errors, rate-limit errors and missing API key are surfaced in status text.
+- API key remains server-side only; it is not placed in index.html or browser storage.
+
+VERIFICATION
+- npm run check: PASS.
+- npm test: 17/17 PASS.
+- Node server syntax: PASS.
+- Frontend syntax/static IDs: PASS.
+- Static route and server-secret protection tests: PASS.
+- Transcription route returns explicit 503 when backend API key is absent: PASS.
+- ZIP integrity: run after packaging.
+
+NOT VERIFIED IN THIS ENVIRONMENT
+- No user's OPENAI_API_KEY was available, so a real provider request could not be made.
+- No deployed backend URL, API billing, model entitlements or CORS deployment configuration was supplied.
+- Microphone permission, real uploaded audio transcription quality, generated AI answer accuracy, TTS playback and physical Android/Acode behavior require testing on the user's deployed service/device.
+- Acode file:// preview does not run the Node backend. Use deployed HTTPS backend or run Node locally and save its URL in Settings.
+- Browser TTS is a device/browser voice, not a guarantee of studio-quality AI voice. For continuous speech-to-speech, use the existing Live Teacher and its configured backend.
+
+NO GUARANTEE
+This is a code-level repair and automated-test pass, not a guarantee of universally bug-free, lag-free, or 100% accurate speech recognition. Accuracy depends on audio clarity, language, accent, microphone, model availability, network and billing.

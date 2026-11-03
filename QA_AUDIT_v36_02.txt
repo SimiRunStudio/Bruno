@@ -1,0 +1,63 @@
+ASMARON LANGUAGE ACADEMY v36.02 — MICRO AUDIT / RESPONSIVE FIX / QA
+==================================================================
+
+INPUT / TARGET
+--------------
+- Reviewed the supplied 709 x 1536 Android screenshot. The embedded app view is a
+  compact landscape dashboard (approximately 16:9), surrounded by portrait black bars.
+- Reviewed the supplied v36.01 ZIP: HTML/CSS/JS frontend, Node backend, assets, setup
+  instructions, deployment blueprint and existing tests.
+
+CHANGES IN v36.02
+-----------------
+1. Added a compact landscape/tablet layout for 640px+ wide, landscape screens up to
+   600px tall. A persistent left rail now exposes Home, AI Studio, Lessons, Practice,
+   Conversation, Phrasebook, Progress, Settings and Help; rail-only destinations stay
+   hidden in portrait mode so the five-button mobile bottom bar remains uncluttered.
+2. Wired AI Studio, Conversation, Phrasebook and Help rail shortcuts to their actual
+   app destinations, including scroll-to-section behavior for AI Studio and Help.
+3. Compact layout reduces header, teacher portrait, action cards, progress ring, stats,
+   feature rows and quick-action cards so the dashboard better fits short landscape
+   viewports without forcing the portrait/mobile layout onto landscape devices.
+4. Kept the existing single-column portrait layout and standard responsive breakpoints.
+5. Corrected the stale v34.00 Settings footer and replaced outdated Live AI availability
+   wording with current backend, HTTPS, microphone, billing and local-data requirements.
+6. Updated package/backend/frontend release markers to v36.02 / 36.2.0.
+7. Expanded frontend static checks to verify all data-act controls have matching event
+   handlers, unique IDs, valid inline JS, release marker and landscape layout rules.
+8. Expanded backend smoke checks for response security headers and OPTIONS preflight.
+
+VALIDATION
+----------
+- node --check server.js: PASS.
+- Frontend inline JavaScript parse: PASS.
+- Static HTML IDs: PASS (no duplicates).
+- data-act handler coverage: PASS (all declared controls map to a switch case).
+- Navigation destination and stale-version checks: PASS.
+- npm run check: PASS.
+- npm test: PASS (HTTP smoke test).
+- ZIP integrity: verified after packaging.
+
+FEATURES REVIEWED
+-----------------
+Offline lessons, 20-language starter phrase data, practice/review, local progress,
+phrasebook, text-to-speech, AI lesson generation/tutor/writing/roleplay/translation/quiz,
+recording/transcription, GPT-Live WebRTC session lifecycle, import/export and settings.
+
+NOT CLAIMED / NOT TESTED
+------------------------
+- A static source review and smoke test cannot prove every UI path is bug-free.
+- No valid API key/project billing was supplied, so live Responses, transcription and
+  GPT-Live sessions were not exercised against the provider.
+- No physical Android device, browser matrix, real microphone/speaker, network loss,
+  accessibility audit, concurrency/load test or language-expert review was available.
+- The screenshot is a visual target, not proof of the app's runtime behavior.
+- Progress is browser-local; this build does not add accounts, cloud sync or server backup.
+- Device speed, hosting, network, browser support and API provider determine runtime
+  performance. Zero bugs / guaranteed lag-free operation cannot honestly be promised.
+
+MODEL CONFIGURATION
+-------------------
+Defaults retained: Responses gpt-6.1-terra, GPT-Live gpt-live-1, delegated Responses
+model gpt-5.6-terra, transcription gpt-transcribe. Confirm project access and current
+provider billing before enabling online features.

@@ -1,0 +1,57 @@
+ASMARON LANGUAGE ACADEMY v36.06 — DEEP POLISH / ONLINE HARDENING
+===============================================================
+
+BASE
+----
+Built from v36.05 online-AI build. Existing UI, offline lesson engine, learner progress,
+AI Studio, recorded transcription and GPT-Live WebRTC workflow are retained.
+
+CHANGES IN v36.06
+-----------------
+1. Restricted static-file serving to index.html and /assets/* only. Backend source,
+   environment templates, dotfiles, project metadata and hidden paths are no longer served.
+2. Added strict backend URL validation in Settings: HTTPS required for remote hosts;
+   HTTP is permitted only for localhost development. Credentials, paths, query strings
+   and fragments are rejected.
+3. Fixed automatic AI connection status so the first health-check result is reflected
+   immediately in the visible UI without requiring a manual rerender.
+4. Cached provider model-metadata health checks for 60 seconds to avoid repeated external
+   model-list requests during refreshes while keeping health status fresh.
+5. Reserved Live session capacity before reading the SDP request body to prevent concurrent
+   requests from racing past the configured session-creation cap.
+6. Added ISO-639-1 language hint to GPT-Transcribe and expanded accepted browser recording
+   MIME types to include OGG and WAV aliases.
+7. Set GPT-Live delegated Responses model default to gpt-5.6-terra, matching the current
+   official GPT-Live WebRTC example. Main AI Responses model remains gpt-6.1-terra.
+8. Raised documented Node.js minimum to 22.6 to match the current official GPT-Live WebRTC
+   Node runtime guidance. Render uses Node 22.
+9. Expanded automated HTTP security tests for source/dotfile denial and public asset access.
+
+AUTOMATED VALIDATION
+--------------------
+- Frontend inline JavaScript parse and unique-ID checks.
+- All data-act controls matched to click-handler cases.
+- Responsive landscape/navigation and accessibility marker checks.
+- Secure backend URL policy and immediate connection-status marker checks.
+- Backend JavaScript syntax check.
+- HTTP smoke test: health, static index, API method/content-type guards, path traversal,
+  sensitive file denial, public asset delivery, security headers and same-origin CORS.
+- ZIP integrity check.
+
+ONLINE AI CONNECTION
+--------------------
+- Responses API text generation: gpt-6.1-terra.
+- GPT-Live 1 speech-to-speech WebRTC with delegated gpt-5.6-terra.
+- GPT-Transcribe recorded audio transcription.
+- Health response lists configured text, Live, delegated and transcription model IDs; only the text model metadata check is verified automatically.
+- API key remains server-side only; configure OPENAI_API_KEY in hosting secrets.
+- Deploy included Render Blueprint or run Node.js 22.6+ with npm start.
+
+NOT CLAIMED / OWNER TEST REQUIRED
+---------------------------------
+- Real provider generation, transcription and Live session require the owner's valid API key,
+  billing, account/model permissions, network access and HTTPS deployment.
+- Physical Android microphone/speaker tests, cross-browser playback, real-world network handoff,
+  production load, multi-user authentication, cloud learner sync and formal privacy compliance
+  have not been certified by this automated test run.
+- Render free instances may sleep/cold-start. No absolute zero-bug or guaranteed lag-free claim.

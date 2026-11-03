@@ -1,0 +1,75 @@
+ASMARON LANGUAGE ACADEMY v36.01 — DEEP AUDIT / FIX / QA
+=======================================================
+
+SCOPE INSPECTED
+---------------
+- index.html: complete inline application script, static IDs, CSS, offline/local data,
+  AI Studio request/response handling, recording/transcription and GPT-Live lifecycle.
+- server.js: request parsing, routes, model readiness, AI schema validation, transcription,
+  live session creation, CORS, throttling, concurrency, cancellation and static serving.
+- package.json, Render blueprint, environment template, setup and Hindi usage documents.
+- Asset inventory and ZIP integrity.
+
+CHANGES IN v36.01
+-----------------
+1. Corrected frontend document title/version marker to v36.00 so the visible version no
+   longer contradicts backend/package release metadata.
+2. Fixed live transcript streaming display: partial input/output transcript deltas are now
+   accumulated instead of replacing earlier words on every delta. Completed transcript
+   events reset their respective draft buffers and are committed to the caption history.
+3. Added support for the documented conversation.item.input_audio_transcription.delta
+   event while retaining the app's existing compatibility event handling.
+4. Reset partial transcript buffers on session start and cleanup to prevent fragments from
+   a previous session leaking into the next session.
+5. Rewrote stale README files that referenced v33/v34/v35-era documents and missing files.
+   Current instructions now consistently describe v36.00 frontend/backend features,
+   setup, HTTPS/microphone requirements, API key safety, usage billing and actual limits.
+6. Added repeatable frontend syntax/duplicate-ID check and a Node built-in HTTP smoke test.
+7. Added npm run check and npm test scripts; package release metadata is 36.1.0.
+
+VALIDATION PERFORMED
+--------------------
+- node --check server.js: PASS.
+- Inline frontend JavaScript parse: PASS.
+- Static HTML parse: PASS; 0 duplicate IDs.
+- CSS parser: PASS; no parse errors.
+- npm run check: PASS.
+- npm test: PASS (1 HTTP smoke test).
+- HTTP smoke test: server starts; /api/health returns expected unconfigured status;
+  root HTML serves; unknown API route returns 404; invalid content type returns 415;
+  AI route without server API key returns 503; unsupported HTTP method returns 405.
+- ZIP integrity: checked after packaging.
+
+RESEARCH ALIGNMENT
+------------------
+Reviewed current OpenAI model catalog, GPT-Live getting-started guide, and GPT-Live
+session lifecycle documentation. The existing configured IDs (gpt-6.1-terra,
+gpt-live-1, gpt-5.6-terra, gpt-transcribe) match documented current model naming.
+The live session lifecycle uses session.started, session.close, session.closed and
+session.usage.updated. Transcript display now accumulates the documented incremental
+input transcription and output audio transcript events.
+
+REFERENCES
+----------
+- https://developers.openai.com/api/docs/models
+- https://developers.openai.com/api/docs/models/all
+- https://developers.openai.com/api/docs/guides/live
+- https://developers.openai.com/api/docs/guides/live-conversations
+- https://developers.openai.com/api/reference/resources/realtime/client-events
+
+NOT TESTED / HONEST LIMITS
+-------------------------
+- No real OpenAI API key, API project entitlement, billable AI generation, transcription
+  upload, or paid GPT-Live WebRTC session was available. Provider connectivity and actual
+  generation quality therefore remain unverified.
+- No Render deployment, physical Android device, microphone/speaker, browser compatibility
+  matrix, mobile OS permission matrix, network interruption simulation, concurrent load
+  test, or human language-expert review was performed.
+- No zero-bug or guaranteed lag-free claim is made. Runtime performance depends on device,
+  browser, hosting, network and provider response time.
+- Data remains local to the browser/device. No account login, cloud sync, multi-device
+  profile, distributed quota system or production analytics is included.
+- AI-generated language content can contain errors and should be reviewed for formal use.
+- API usage and live-session duration may incur provider charges; verify current account
+  pricing and limits before enabling online features.
+- Acode static preview cannot run server.js. Use Node.js 20+ or deploy the included backend.

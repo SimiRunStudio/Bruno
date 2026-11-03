@@ -1,0 +1,29 @@
+ASMARON LANGUAGE ACADEMY v36.12 — PRACTICE WORKSPACE RELEASE
+
+WHAT CHANGED
+- Replaced the former minimal Practice room entry with a responsive, dark navy / electric-blue Practice dashboard inspired by the supplied reference.
+- Added six distinct activity cards: Grammar Quiz, Listening Practice, Speaking Practice, Writing Practice, Conversation Practice and Vocabulary Practice.
+- Added a 10-question offline grammar quiz with selectable answers, per-question feedback, explanations, result summary, retry and exit.
+- Grammar quiz results update aggregate attempt count, correct count, XP, daily goal progress and learning history.
+- Listening opens the existing 10-question lesson engine in listen mode and uses device speech synthesis where supported.
+- Challenge mode uses typed recall questions; regular and weak-area practice use the existing adaptive student model.
+- Smart Revision uses the existing due-review scheduler and gives a clear all-caught-up state when no items are due.
+- Speaking, writing and conversation cards preconfigure the existing AI Studio tutor, correction and roleplay tasks. These online AI features require a configured backend and API access.
+- Added live progress, accuracy, best-session estimate, item mastery count, daily XP goal, quick access, weak-area/revision/challenge shortcuts and learning tips.
+- Added keyboard focus, touch target, narrow-screen, tablet/desktop and reduced-motion styling.
+- Kept existing course, phrasebook, lesson, AI Studio, local progress and backend functionality.
+
+VALIDATION RUN
+- node --check server.js: PASS
+- npm run check: PASS (frontend inline script syntax, duplicate static IDs, action wiring checks, embedded image checks, GPT-Live contract checks and Practice feature assertions)
+- npm test: PASS (3/3 tests)
+- ZIP integrity: checked after packaging.
+
+LIMITATIONS / NOT CLAIMED AS VERIFIED
+- Physical Android/Acode rendering and device-specific performance were not verified in this environment.
+- AI speaking feedback, writing correction and conversation roleplay need a reachable deployed backend and valid server-side API key; browser-only file preview cannot run the Node backend.
+- Device speech synthesis availability and microphone permission vary by browser/device.
+- The local grammar quiz is a starter 10-item set, not a complete CEFR grammar curriculum or certified placement test.
+- No claim of zero bugs or guaranteed lag-free performance on every device is made.
+- Headless Chromium UI smoke test at 390px and 412px viewport widths: PASS for six dashboard cards, grammar quiz answer selection, feedback, all 10 questions, results, listening lesson launch, typed challenge launch, vocabulary phrasebook, and AI Studio task preselection for tutor/writing/roleplay. No browser JavaScript page errors observed in these tested flows.
+- This headless browser check is not a substitute for testing on the user's actual Android phone or Acode build.

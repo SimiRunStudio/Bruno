@@ -1,0 +1,36 @@
+ASMARON LANGUAGE ACADEMY v36.11 — LESSONS UI / LEARNING SYSTEM REPORT
+======================================================================
+
+BASE
+----
+Built from the supplied v36.10 project. Existing offline-first lesson engine, course
+selection, phrase packs, adaptive question selection, typed/pick/listen/reverse modes,
+spaced review, XP, progress, phrasebook, AI Teacher, backend and deployment files retained.
+
+LESSONS EXPERIENCE
+------------------
+1. Rebuilt the Courses screen as a dedicated premium Lessons workspace inspired by the
+   supplied visual reference: navy/blue palette, lesson metrics, skill navigation labels,
+   learning-path units, featured lesson, key phrase, grammar focus, real-life dialogue,
+   review action, AI Teacher entry and language selection.
+2. The featured phrase is read from the selected offline course pack and its pronunciation
+   button speaks that exact phrase.
+3. The primary Start actions use the existing 10-question adaptive lesson engine.
+4. Smart Review uses the existing due-item queue; progress metrics use saved local progress.
+5. Responsive layouts cover desktop/tablet/mobile, narrow 320px screens, safe wrapping,
+   horizontal skill-strip scrolling and reduced-motion preferences.
+6. Added regression checks for key lesson workspace structures and action wiring.
+
+HONEST SCOPE
+------------
+The six visible unit cards are curriculum previews, not six independently authored
+CEFR-complete modules. The underlying shipped content remains the selected language's
+offline starter phrase pack and existing mixed adaptive exercises. Grammar, listening,
+speaking and writing are shown as learning-skill areas; full dedicated scored skill courses
+require additional lesson content and assessment systems.
+
+VALIDATION
+----------
+See terminal validation accompanying this ZIP. Static checks and Node tests do not prove
+real Android microphone behaviour, provider API availability, visual browser rendering,
+pronunciation scoring or zero latency. Test on Android Chrome/HTTPS and Acode local setup.

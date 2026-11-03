@@ -1,0 +1,60 @@
+ASMARON LANGUAGE ACADEMY v36.00 — DEEP POLISH / QA AUDIT
+========================================================
+
+BASELINE AND PRESERVATION
+-------------------------
+Built from v35.00. Preserves the AI Teacher dashboard and portrait, five main tabs,
+offline learning content, local learner progress, adaptive recall heuristics, AI lesson
+packs, tutor, writing correction, text roleplay, translation, placement quiz, recorded
+speech transcription and server-side GPT-Live WebRTC session creation.
+
+LIVE TEACHER POLISH
+-------------------
+- Added a bounded startup watchdog so a connection that never reaches session.started
+  returns the UI to a recoverable state rather than leaving the Start button disabled.
+- Added delayed-disconnect handling: brief network state changes are tolerated; persistent
+  disconnection is surfaced clearly without silently claiming the session is active.
+- Added graceful session.close with a unique event_id and a bounded wait for session.closed.
+- The microphone and peer connection are released on confirmed close or a bounded timeout.
+  If confirmation times out, UI text explicitly says final usage may be unconfirmed.
+- Added support for GPT-Live transcript delta/done event names and session usage updates;
+  retained compatibility handling for existing transcript event variants.
+- Added page-exit close request and cleanup of media tracks, audio element and timers.
+- Added clear reconnect/error messages and retained the existing HTTPS/microphone checks.
+- Updated app/package/backend version to 36.00.
+
+RESEARCH ALIGNMENT
+------------------
+Current OpenAI GPT-Live docs describe WebRTC media tracks, a data channel for JSON
+control/events, session.started, session.close/session.closed, transcript events and
+cumulative session usage. This build aligns its client lifecycle and transcript handlers
+with those documented event shapes. Sources:
+- https://developers.openai.com/api/docs/guides/live
+- https://developers.openai.com/api/docs/guides/live-conversations
+- https://developers.openai.com/api/docs/guides/live-delegation
+- https://developers.openai.com/api/reference/typescript/resources/live/methods/create
+
+STATIC / LOCAL TESTS
+--------------------
+- node --check server.js: PASS.
+- Extracted inline frontend JavaScript node --check: PASS.
+- HTML parser: PASS; unique static IDs.
+- CSS parser: PASS; no parse errors.
+- Required routes and live-session protections retained from v35.
+- ZIP integrity (`unzip -t`): PASS.
+
+NOT TESTED / HONEST LIMITS
+--------------------------
+- No real OpenAI API key, paid GPT-Live session, or account model entitlement available.
+- No Render deployment, Android handset, physical microphone/speaker, browser matrix,
+  network-loss simulation, load test or human language-expert evaluation was performed.
+- Portrait remains a static image; no live lip-sync video or generated face animation.
+- No phoneme-level pronunciation score, authentication, multi-user cloud profile,
+  cross-device sync, persistent distributed quotas or production analytics.
+- API usage is separately billed by the provider; verify current pricing and limits.
+- Acode static HTML preview cannot run the Node backend. Serve/deploy the Node app over
+  HTTPS (or localhost for development), configure OPENAI_API_KEY server-side, and set
+  ALLOWED_ORIGINS to exact frontend origins if frontend/backend are on separate hosts.
+
+No claim of zero bugs or guaranteed lag-free performance is made. The checks above are
+static/code-level validation only, not a substitute for real-device and live-provider QA.

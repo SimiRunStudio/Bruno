@@ -1,0 +1,42 @@
+ASMARON LANGUAGE ACADEMY v36.14 — BUTTON & INTERACTION WORKABILITY AUDIT
+
+BASE
+- Built from v36.13 Progress + Settings Premium Clean.
+- Preserved existing lessons, practice, progress, settings, local storage, backend API and deployment files.
+
+FIXES
+1. Implemented the previously missing startAIRecording() action.
+   - Requests microphone permission with clear error messages.
+   - Uses MediaRecorder with supported MIME selection.
+   - Supports explicit Stop and a 60-second maximum recording duration.
+   - Stops microphone tracks after recording and on page exit.
+   - Sends short audio securely to the existing /api/transcribe endpoint.
+   - Inserts the returned transcript into the AI message field.
+   - Handles missing backend, unsupported browser, permission denial, no microphone,
+     empty/oversized recording, network timeout and server transcription errors.
+2. Fixed AI placement quiz option routing. Its data-choice controls were intercepted by
+   the generic lesson-choice handler before the AI quiz action could receive the click.
+3. Added bounds/answered-state checks to AI quiz and grammar quiz choices/next controls.
+4. Prevented a lesson from advancing until its current question is answered.
+5. Made Weak Areas use a dedicated weak-item selection pool when learner history exists;
+   falls back to an adaptive lesson when there is not enough history to identify weak items.
+6. Improved AI answer copy fallback for browsers without Clipboard API.
+7. Improved export download lifecycle by attaching the temporary link and delaying URL cleanup.
+8. Added regression tests covering every button route, speech recording wiring, AI quiz routing,
+   quiz guards and weak-area/challenge routing.
+
+VERIFICATION
+- npm run check: PASS.
+- npm test: PASS (9/9 tests passed in the final test run).
+- Frontend inline JavaScript syntax: PASS.
+- Static button routing coverage: PASS; every button has a delegated action or a dedicated data route.
+- Literal data-act values: PASS; all are represented in the delegated action switch.
+- Existing server/API/CORS/security tests: PASS.
+- ZIP integrity: checked at packaging.
+
+IMPORTANT LIMITATIONS
+- Real microphone capture/transcription requires HTTPS or localhost, browser microphone permission,
+  configured backend URL, a running Node server and a valid server-side OPENAI_API_KEY.
+- AI provider calls, Live WebRTC voice, actual audio transcription, physical Android/Acode behavior,
+  and cross-device browser behavior cannot be certified in this offline build environment.
+- No claim of universally bug-free or lag-free behavior is made; test on the target Android device.

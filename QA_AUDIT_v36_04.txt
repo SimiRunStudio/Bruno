@@ -1,0 +1,37 @@
+ASMARON LANGUAGE ACADEMY v36.04 — VIDEO-DRIVEN REGRESSION FIXES
+================================================================
+
+INPUT / REPRODUCTION
+--------------------
+- Reviewed the supplied 29.7-second Android screen recording.
+- Reproduced visible broken app-icon and AI-teacher image placeholders in the recording.
+- Reproduced the blocking browser alert when SpeechSynthesis is unavailable.
+
+CONFIRMED FIXES
+---------------
+1. Embedded the app icon and teacher portrait as data URIs inside index.html. The
+   single-file demo now retains both images even when the user copies index.html
+   without the assets folder. Original assets remain in the project for normal use.
+2. Replaced the unsupported-TTS browser alert with a non-blocking accessible toast.
+   The message explains the Chrome / configured Live Teacher fallback.
+3. Added guarded SpeechSynthesisUtterance checks and playback error handling.
+4. Updated app, server, package and Hindi guide version markers to v36.04.
+5. Kept API keys server-side; no credentials were added to the frontend or ZIP.
+
+VALIDATION
+----------
+- npm run check: required.
+- npm test: required.
+- ZIP integrity: required.
+- Static guard: both image data URIs exist; unsupported TTS branch has no alert;
+  appToast is accessible and has no blocking dialog.
+- Chromium headless screenshot attempt timed out in this environment; not counted as a pass.
+
+LIMITS
+------
+- A browser-only static page cannot create real AI speech without a speech engine
+  or configured backend. Live AI still requires HTTPS, microphone permission, API
+  access and billing.
+- No physical Android device, actual speaker/microphone, network outage or paid API
+  session was available for this build. Zero bugs / guaranteed lag-free cannot be
+  certified from automated checks alone.

@@ -1,0 +1,51 @@
+ASMARON LANGUAGE ACADEMY v36.10 — UI / SYSTEM HARDENING REPORT
+===============================================================
+
+BASE
+----
+Built from the supplied latest v36.09 ZIP. Preserved the existing offline-first lessons,
+course library, phrasebook, progress tracking, local backup/import, AI Studio, speech
+transcription, GPT-Live WebRTC voice lifecycle, backend routes, assets and deployment files.
+
+CHANGES
+-------
+1. Unified premium dark navy / blue theme tokens and browser-native form control appearance.
+2. Improved form readability, placeholder contrast, disabled states and keyboard focus rings.
+3. Increased mobile bottom-navigation touch target height and retained safe-area spacing.
+4. Added narrow-screen spacing rules for 320–380px layouts.
+5. Hardened overflow handling for cards, screen root, rows and embedded media.
+6. Preserved reduced-motion behavior and added a consistent reduced-motion override.
+7. Updated theme-color metadata, frontend/server/package version markers to 36.10.
+8. Removed an empty accidental test artifact and expanded automated server checks.
+9. Added tests for CORS allowlist rejection/acceptance and UI/accessibility/security headers.
+
+AUTOMATED VALIDATION
+--------------------
+- node --check server.js: PASS
+- npm run check: PASS (inline JS syntax, static ID uniqueness, navigation destinations,
+  action wiring, mobile/accessibility markers, embedded images and GPT-Live event contract)
+- npm test: PASS (3 test cases: HTTP/API/security guards, CORS allowlist, static UI/security)
+- ZIP archive integrity: validated after packaging.
+
+LIMITATIONS / NOT CLAIMED
+-------------------------
+- A real API key was not available. Live OpenAI Responses, transcription and GPT-Live
+  sessions were not executed against the provider.
+- Android Acode file:// preview cannot run the Node backend. Online AI requires the backend
+  running on localhost or deployed over HTTPS, with OPENAI_API_KEY set server-side.
+- Microphone permission, audio playback, interruption, device-specific layout and low-end
+  Android performance require physical-device acceptance testing.
+- Headless Chromium did not complete in this environment; no visual-browser pass is claimed.
+- No claim of zero bugs, zero latency, pronunciation scoring, cloud sync, accounts or
+  multi-device synchronization is made. These are outside the verified project scope.
+
+ANDROID ACCEPTANCE CHECKLIST
+---------------------------
+1. Open the extracted project in Acode and test Home, Courses, Practice, Phrasebook,
+   Progress and Settings at 320px, 360px and 412px widths.
+2. Complete a lesson, close/reopen the browser and confirm local progress persists.
+3. Export a backup, clear progress in a test profile, then import and verify restoration.
+4. Run the Node backend separately; configure OPENAI_API_KEY only in server environment.
+5. Deploy over HTTPS, save backend URL in Settings, and confirm /api/health reports readiness.
+6. On Android Chrome, test microphone permission, Live Teacher greeting/reply, mute/unmute,
+   ending a session, reconnecting and cancelling during permission prompt.

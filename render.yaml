@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: asmaron-language-academy
+    runtime: node
+    plan: free
+    buildCommand: "npm run check && npm test"
+    startCommand: "node server.js"
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-6.1-terra
+      - key: OPENAI_LIVE_MODEL
+        value: gpt-live-1
+      - key: OPENAI_LIVE_RESPONSES_MODEL
+        value: gpt-5.6-terra
+      - key: MAX_CONCURRENT_AI
+        value: "4"
+      - key: MAX_LIVE_SESSION_CREATIONS
+        value: "3"

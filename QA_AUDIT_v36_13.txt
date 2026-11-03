@@ -1,0 +1,51 @@
+ASMARON LANGUAGE ACADEMY — v36.13
+Progress + Settings Premium UI and System Update
+
+BASE
+- Built from v36.12 Premium Practice UI project.
+- Existing lesson, practice, AI backend, Live Teacher, phrasebook, progress state and backup flows retained.
+
+PROGRESS SCREEN
+- Rebuilt the screen as a responsive learning analytics dashboard in the Asmaron navy/blue visual system.
+- Total XP and current/best streak.
+- Overall answer accuracy, attempts, tracked learning items and due reviews.
+- Weekly activity chart built from dated local session-history records.
+- Daily goal completion based on the existing daily XP and goal fields.
+- 28-day activity heatmap based on actual stored history dates.
+- Course mastery bars based on the existing review levels.
+- Practice mix uses only explicit stored activity types; legacy/unclassified activity is grouped separately.
+- Achievements are earned only when their underlying recorded thresholds are met.
+- Clear notice that this is local app activity, not an official CEFR score or certified fluency measure.
+- Reminder notice appears on Progress when the enabled local reminder time has passed and the daily goal is incomplete.
+
+SETTINGS SCREEN
+- Reorganized into Learning, Languages, Appearance & Accessibility, Audio, Reminders, AI Connection, Data & Privacy, and About.
+- Daily XP goal and learning/help language selectors.
+- Dark blue, light and system-following theme choices.
+- Text scale and reduced-motion preferences.
+- Text-to-speech enable/disable and playback speed, with a test phrase action.
+- Local in-app reminder enable/time controls. Explicitly not represented as background push notifications.
+- Backend URL save/test controls retained; no API key field added.
+- Data storage, cloud-sync, microphone permission and API-key handling explained accurately.
+- Existing JSON progress export/import retained.
+- Reset progress now preserves app preferences and language choices while clearing learning state.
+
+DATA / COMPATIBILITY
+- Added safe defaults and validation for new settings fields; older saved progress remains readable.
+- Existing localStorage key and previous version migration path retained.
+- Existing history entries without activity type are not falsely assigned to a specific skill.
+- New lesson history records now carry the actual exercise/focus mode where available.
+
+VERIFICATION
+- npm run check: PASS.
+- node --check server.js: PASS (included in npm run check).
+- npm test: 4/4 PASS (3 existing server tests + new Progress/Settings render test).
+- Progress and Settings render functions executed in isolated Node VM test: PASS.
+- ZIP integrity check: PASS (verified after archive creation).
+
+LIMITATIONS / NOT CLAIMED
+- No cloud account sync, push notification scheduler, official CEFR placement, externally verified proficiency score or certified course certificate was added.
+- Reminder is local and shown when the app is opened after the selected time; it does not run in the background.
+- Real AI connectivity and Live Teacher still require a deployed backend, valid server-side API key, HTTPS/localhost and device microphone permission.
+- Physical Android/Acode device testing was not possible in this environment. A browser render test was attempted but local browser navigation was blocked by the execution environment; no browser visual pass is claimed.
+- Performance varies by Android device and browser; no universal lag-free/bug-free guarantee is made.

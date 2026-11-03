@@ -1,0 +1,52 @@
+ASMARON LANGUAGE ACADEMY v36.03 — DEEPER FUNCTIONAL AUDIT / REGRESSION FIXES
+=======================================================================
+
+INPUT
+-----
+- Audited the supplied v36.02 ZIP, including frontend, backend, setup guides,
+  existing QA notes, assets, package metadata and tests.
+- The ZIP integrity check passed before edits. Existing npm check and npm test
+  also passed; those checks did not cover the regressions listed below.
+
+CONFIRMED FIXES IN v36.03
+-------------------------
+1. AI placement quiz: the quiz stored the selected option index but final scoring
+   compared that number directly with the answer text. Final scoring now resolves
+   the selected option text before comparing, and regression cases cover correct
+   and incorrect selections.
+2. AI Teacher shortcut state: shortcut presets could override subsequent manual
+   dropdown selections and edits to the user's message. Manual changes now clear
+   the corresponding preset, presets are reflected in the dropdown, and preset
+   values are consumed once when a request is started.
+3. Backend request-body timeout: the previous timeout destroyed the request socket
+   before the route could reliably return its intended 408 response. The handler
+   now settles the body reader, ignores later chunks and drains the request so the
+   HTTP error response can be returned.
+4. Removed a duplicate Referrer-Policy response-header entry.
+5. Aligned the default delegated Live-session Responses model with the documented
+   GPT-6.1 Terra model ID instead of the unverified gpt-5.6-terra string. This
+   still requires access in the owner's API project; no credentials were supplied.
+6. Updated frontend, backend, package metadata, tests and Hindi setup docs to v36.03.
+7. Added automated frontend regression checks for quiz scoring and AI shortcut state.
+
+VALIDATION
+----------
+- node --check server.js: required.
+- npm run check: required.
+- npm test: required.
+- ZIP integrity: required after packaging.
+- Static HTML/JS checks include unique IDs, inline JS parsing, action-handler
+  coverage, responsive landscape rules, navigation destinations, AI quiz score
+  behavior and shortcut-preset regression guards.
+
+REMAINING EXTERNAL / DEVICE TESTS
+--------------------------------
+- No API key or paid API project credentials were provided, so real AI generation,
+  transcription and live WebRTC sessions could not be exercised.
+- No physical Android device, real microphone/speaker, browser compatibility matrix,
+  screen-reader audit, network-loss test, multi-user load test or language-expert
+  review was available.
+- Local progress remains browser/device storage; this build does not add accounts,
+  cloud sync or server-side backup.
+- Zero bugs or guaranteed lag-free behavior cannot be honestly certified from a
+  static/runtime smoke-test environment.
